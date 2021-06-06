@@ -5,14 +5,14 @@
         <div class="px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
             <h1 class="display-4">All Books</h1>
             <h2 class="lead">A range of wonderful programming books to help you learn JavaScript.</h2>
-                <a class="text-primary" href="{% url 'books:bookcreate-view'  %}" class="btn btn-secondary btn-block"> <h1>Create a View</h1></a>
+                <a class="text-primary" href="{% url 'book_create' %}" class="btn btn-secondary btn-block"> <h1>Create a View</h1></a>
         </div>
         
         <div class="py-5">
             <div class="row">
-                {% for book in books %}
+                {% for book in object_list %}
                 <div class="col-md-4">
-                    <a class="text-dark" href="{% url 'books:detail' pk=book.pk %}">
+                    <a class="text-dark" href="{{ book.get_absolute_url }}">
                         <div class="card mb-4 box-shadow">
                             <div class="card-body">
                                 <h2 style="font-size:18px;font-weight:bold;min-height:42px;">
@@ -23,8 +23,8 @@
                                 </div>
                                 <small class="text-muted">{{time}}</small>
                                 <p class="lead">
-                                    <a class="text-uppercase" href="{% url 'books:bookupdate-view' pk=book.pk  %}">  <p class="text-primary">Edit a View</p></a>
-                                    <a class="text-uppercase" href="{% url 'books:bookdelete-view' pk=book.pk  %}">  <p class="text-primary">Delete a View</p></a>
+                                    <a class="text-uppercase" href="{{ book.get_update_url }}">  <p class="text-primary">Edit a View</p></a>
+                                    <a class="text-uppercase" href="{{ book.get_delete_url }}">  <p class="text-primary">Delete a View</p></a>
                                 </p>
                             </div>
                         </div>
