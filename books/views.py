@@ -5,6 +5,7 @@ from .models import Books
 from django.db.models import F
 from django.utils import timezone
 from .forms import BookForm
+from django.contrib import messages
 
 # from django.urls import reverse, redirect
 from django.shortcuts import render, get_object_or_404, redirect, reverse
@@ -62,17 +63,25 @@ class CreateBookView(CreateView):
     template_name = 'book_create.html'
     # success_url = reverse_lazy('books:bookcreate-view')
 
-    # def form_valid(self, form_class):
-    #     # form_class.instance.author = get_author(self.request.user)
-    #     form_class.save()
-    #     return redirect(reverse("book_detail", kwargs={
-    #         'pk': form_class.instance.pk
-    #     }))
+    def form_valid(self, form_class):
+        # form_class.instance.author = get_author(self.request.user)
+        form_class.save()
+        return redirect(reverse("book_detail", kwargs={
+            'pk': form_class.instance.pk
+        }))
 
 class UpadteBookView(UpdateView):
     model = Books
     template_name = 'book_update.html'
-    fields = '__all__'
+    form_class = BookForm
+
+    def form_valid(self, form_class):
+        # form_class.instance.author = get_author(self.request.user)
+        form_class.save()
+        return redirect(reverse("book_detail", kwargs={
+            'pk': form_class.instance.pk
+        }))
+
     # pk_url_kwarg = 'pk'
     # success_url = reverse_lazy('books:bookupdate-view')
 
@@ -80,8 +89,8 @@ class UpadteBookView(UpdateView):
 class DeleteBookView(DeleteView):
     model = Books
     template_name = 'book_delete.html'
-    fields = '__all__'
-    # pk_url_kwarg = 'pk'
-    # success_url = reverse_lazy('books:bookdelete-view')
+    form_class = BookForm
+
+    success_url = '/books/'
 
 

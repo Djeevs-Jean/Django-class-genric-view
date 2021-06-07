@@ -1,27 +1,30 @@
 {% extends "base.html" %}
-{% load widget_tweaks %}
 
 {% block content %}
 
 <div class="container pt-5">
-    <form method="post" novalidate>
-        {% csrf_token %}
-        {% for field in form.visible_fields %}
-        <div class="form-group">
-            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-            {{ field|add_class:'form-control' }}
-            {% for error in field.errors %}
-            <span class="help-block">{{ error }}</span>
-            {% endfor %}
+
+    <div class="row">
+
+            <div class="col-lg-12 entries">
+
+                    {% if messages %}
+                        <ul class="messages">
+                            {% for message in messages %}
+                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+                        {% include 'forms_crud/books_crud_form.html' %}
+                        <input type="submit" class="btn btn-primary form-control mb-2" value="Update">
+                        <a href="{{ book.get_delete_url }}" class="btn btn-danger form-control mb-2">Delete</a>
+                    </form>
+
+            </div>
+
         </div>
-        {% endfor %}
-        <div class="form-group">
-            <button type="submit" class="btn btn-success">
-            <span class="glyphicon glyphicon-ok"></span> Edit
-            </button>
-            <a href="{% url 'books:home'  %}" class="btn btn-default">Cancel</a>
-        </div>
-    </form>
 </div>
 
 {% endblock %}
